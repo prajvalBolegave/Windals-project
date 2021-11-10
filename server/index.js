@@ -1,9 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
-import mysql from "mysql";
+import { createPool } from "mysql";
+import db from "./Database/db.js";
 import cors from "cors";
 import loginRoutes from './routes/adminlogin.js'
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
 
 
@@ -20,17 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 
 
 /*----------------------------------------DATABASE CONNECTION-------------*/
-const db = mysql.createConnection({             //--------| MYSQL
-    host: 'localhost',
-    user: 'root',
-    password: 'Viit@123'
-});
-
-db.connect(err => {
-    if (err)
-        throw err;
-    console.log("Mysql is connected....");
-});
 
 // const dbUrl = 'mongodb://localhost/Windals-pdi';         //---------| MONGODB
 // mongoose.connect(dbUrl, {
@@ -46,12 +39,26 @@ db.connect(err => {
 /*------------------------------------------DATABASE CONNECTION-----------*/
 app.get('/createDatabase', (req, res) => {
     try {
-        const query = "CREATE DATABASE Windals_pdi";
-        db.query(query, (err, result) => {
-            if (err) throw new Error(err.message);
-            console.log(result);
-            res.send("Wow DB created");
-        });
+        const query2 = "INSERT INTO Admin(Employee_id,FirstName,LastName,department,email,designation,phone,Join_date,Pass) values(?,?,?,?,?,?,?,?,?)";
+        db.query(
+            query2,
+            [
+                "EE80445",
+                "Manish",
+                "Patil",
+                "Civil",
+                "manish@gmail.com",
+                'A',
+                272844432,
+                '2000-12-11',
+                "afajbnahhgbjkabtkujabfkjabtgjbadafdsgsa"
+            ],
+            (error, results, fields) => {
+                if(error) throw new Error(error.message);
+                console.log(results);
+                res.json("Yay added a new entry");
+            }
+        )
     } catch (err) {
         console.log(err.message);
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import "./Adminhome.css";
 import { useHistory } from 'react-router';
+import { Button } from 'react-bootstrap';
 
 export default function Adminhome() {
     const history = useHistory();
@@ -28,14 +29,15 @@ export default function Adminhome() {
     }
 
 
-    useEffect(() => {
-        checkAuthentication();
-    }, []);
+    // useEffect(() => {
+    //     checkAuthentication();
+    // }, []);
 
 
     return (
         <div className="adminHome">
             <h1>This will be ADMIN PAGE </h1>
+            <Button variant="primary">Primary</Button>
         </div>
     )
 }
